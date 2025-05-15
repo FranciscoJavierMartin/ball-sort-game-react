@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import type { HeaderActions } from '@/modules/common/constants/header';
 import GameWrapper from '@/modules/game/components/game-wrapper/game-wrapper';
 import GameHeader from '@/modules/game/components/game-header/game-header';
 import type {
   Balls,
-  Coordinate,
+  CoordinateTube,
   GameProps,
   TestTubes,
   TubeDistribution,
@@ -40,6 +40,7 @@ export default function Game({
         testTubes,
       }),
   );
+  const tubesRef = useRef<CoordinateTube[]>([]);
 
   function handleActions(type: HeaderActions): void {
     console.log(type);
@@ -49,8 +50,8 @@ export default function Game({
     console.log('onClick', indexSelectedTube);
   }
 
-  function handlePosition(index: number, data: Coordinate): void {
-    console.log('handlePosition', { index, data });
+  function handlePosition(index: number, data: CoordinateTube): void {
+    tubesRef.current[index] = data;
   }
 
   return (
