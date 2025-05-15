@@ -2,12 +2,18 @@ import { useState } from 'react';
 import type { HeaderActions } from '@/modules/common/constants/header';
 import GameWrapper from '@/modules/game/components/game-wrapper/game-wrapper';
 import GameHeader from '@/modules/game/components/game-header/game-header';
-import type { Balls, Coordinate, GameProps } from '@/modules/game/interfaces';
+import type {
+  Balls,
+  Coordinate,
+  GameProps,
+  TestTubes,
+} from '@/modules/game/interfaces';
 import Ball from '@/modules/game/components/ball/ball';
 import COLORS_BALLS from '@/modules/common/constants/color';
 import Tube from '@/modules/game/components/tube/tube';
 import getStyles from '@/modules/game/helpers/styles';
 import getInitialBalls from '@/modules/game/helpers/get-initial-balls';
+import getInitialTestTubes from '@/modules/game/helpers/get-initial-test-tubes';
 
 export interface ExtendedGameProps extends GameProps {
   handleNextLevel: (isNextLevel?: boolean) => void;
@@ -23,6 +29,9 @@ export default function Game({
   handleNextLevel,
 }: ExtendedGameProps) {
   const [balls, setBalls] = useState<Balls[]>(() => getInitialBalls(tubes));
+  const [testTubes, setTestTubes] = useState<TestTubes[]>(() =>
+    getInitialTestTubes(tubes, distribution, capacity, size),
+  );
 
   function handleActions(type: HeaderActions): void {
     console.log(type);
@@ -46,12 +55,12 @@ export default function Game({
         tubeHelpEnabled={false}
       />
       {/* <Ball size={size} colors={COLORS_BALLS[0]} x={100} y={200} /> */}
-      <Tube
+      {/* <Tube
         style={getStyles(size, capacity)}
         handleOnClick={handleOnClick}
         handlePosition={handlePosition}
         index={0}
-      />
+      /> */}
     </GameWrapper>
   );
 }
