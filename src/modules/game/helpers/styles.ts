@@ -8,8 +8,8 @@ export default function getStyles(
   capacity: number,
 ): { width: number; borderWidth: number; height: number } {
   const width: number = Math.round(size + size * WIDTH_PADDING_PERCENTAGE);
-  const height: number = Math.round(width - width * 0.95);
-  const borderWidth: number = Math.round(
+  const borderWidth: number = Math.round(width - width * 0.95);
+  const height: number = Math.round(
     size * capacity + size * HEIGHT_OFFSET_PERCENTAGE,
   );
 
