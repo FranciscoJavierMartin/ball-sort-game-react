@@ -9,13 +9,10 @@ import type {
   TestTubes,
   TubeDistribution,
 } from '@/modules/game/interfaces';
-import Ball from '@/modules/game/components/ball/ball';
-import COLORS_BALLS from '@/modules/common/constants/color';
-import Tube from '@/modules/game/components/tube/tube';
-import getStyles from '@/modules/game/helpers/styles';
 import getInitialBalls from '@/modules/game/helpers/get-initial-balls';
 import getInitialTestTubes from '@/modules/game/helpers/get-initial-test-tubes';
 import getInitialTubeDistribution from '@/modules/game/helpers/get-initial-tube-distribution';
+import Tubes from '@/modules/game/components/tubes/tubes';
 
 export interface ExtendedGameProps extends GameProps {
   handleNextLevel: (isNextLevel?: boolean) => void;
@@ -65,6 +62,15 @@ export default function Game({
         totalUndo={0}
         tubeHelpEnabled={tubeDistribution.isComplete}
       />
+      <Tubes
+        distribution={tubeDistribution.distribution}
+        size={size}
+        handleOnClick={handleOnClick}
+        testTubes={testTubes}
+        handlePosition={handlePosition}
+      />
+
+      {/* <Tube
       {/* <Ball size={size} colors={COLORS_BALLS[0]} x={100} y={200} /> */}
       {/* <Tube
         style={getStyles(size, capacity)}
