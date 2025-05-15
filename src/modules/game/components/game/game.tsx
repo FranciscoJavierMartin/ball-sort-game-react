@@ -48,6 +48,12 @@ export default function Game({
         handlePosition={handlePosition}
         index={0}
       />
+      <Tube
+        style={getStyles(size, capacity)}
+        handleOnClick={handleOnClick}
+        handlePosition={handlePosition}
+        index={1}
+      />
     </GameWrapper>
   );
 }
