@@ -4,6 +4,21 @@ import Game, {
 
 export default function GamePage() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const level1: ExtendedGameProps = {
+    size: 35,
+    distribution: [2],
+    capacity: 4,
+    level: 1,
+    isSpecialLevel: false,
+    tubes: {
+      '0': { balls: [{ value: 5 }] },
+      '1': { balls: [{ value: 5 }, { value: 5 }, { value: 5 }] },
+    },
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    handleNextLevel: (isNextLevel = false) => {},
+  };
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const level30: ExtendedGameProps = {
     capacity: 4,
     distribution: [5, 4],
@@ -162,5 +177,5 @@ export default function GamePage() {
     handleNextLevel: (isNextLevel = false) => {},
   };
 
-  return <Game {...level30} />;
+  return <Game {...level1} />;
 }
