@@ -1,5 +1,6 @@
 import type { CSSProperties } from 'react';
 import type { Coordinate } from '@/modules/game/interfaces';
+import './tube.css';
 
 interface TubeProps {
   style: CSSProperties;
@@ -18,5 +19,12 @@ export default function Tube({
   handleOnClick,
   handlePosition,
 }: TubeProps) {
-  return <div className='tube' style={style}></div>;
+  return (
+    <button
+      className='tube'
+      style={style}
+      onClick={() => handleOnClick(index)}
+      aria-label={`Tube ${index}`}
+    ></button>
+  );
 }
