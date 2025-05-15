@@ -7,6 +7,7 @@ import type {
   Coordinate,
   GameProps,
   TestTubes,
+  TubeDistribution,
 } from '@/modules/game/interfaces';
 import Ball from '@/modules/game/components/ball/ball';
 import COLORS_BALLS from '@/modules/common/constants/color';
@@ -14,6 +15,7 @@ import Tube from '@/modules/game/components/tube/tube';
 import getStyles from '@/modules/game/helpers/styles';
 import getInitialBalls from '@/modules/game/helpers/get-initial-balls';
 import getInitialTestTubes from '@/modules/game/helpers/get-initial-test-tubes';
+import getInitialTubeDistribution from '@/modules/game/helpers/get-initial-tube-distribution';
 
 export interface ExtendedGameProps extends GameProps {
   handleNextLevel: (isNextLevel?: boolean) => void;
@@ -31,6 +33,15 @@ export default function Game({
   const [balls, setBalls] = useState<Balls[]>(() => getInitialBalls(tubes));
   const [testTubes, setTestTubes] = useState<TestTubes[]>(() =>
     getInitialTestTubes(tubes, distribution, capacity, size),
+  );
+  const [tubeDistribution, setTubeDistribution] = useState<TubeDistribution>(
+    () =>
+      getInitialTubeDistribution({
+        balls,
+        capacity,
+        distribution,
+        testTubes,
+      }),
   );
 
   function handleActions(type: HeaderActions): void {
@@ -52,7 +63,7 @@ export default function Game({
         isSpecialLevel={isSpecialLevel}
         level={level}
         totalUndo={0}
-        tubeHelpEnabled={false}
+        tubeHelpEnabled={tubeDistribution.isComplete}
       />
       {/* <Ball size={size} colors={COLORS_BALLS[0]} x={100} y={200} /> */}
       {/* <Tube
