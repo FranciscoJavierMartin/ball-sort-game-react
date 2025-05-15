@@ -1,3 +1,5 @@
+import lightenDarkenColor from '@/modules/game/helpers/color';
+
 const COLORS_BALLS = [
   '#512E5F',
   '#641E16',
@@ -11,7 +13,7 @@ const COLORS_BALLS = [
   '#0000FF',
   '#FF00FF',
   '#00FFFF',
-];
+].map((color) => [color, lightenDarkenColor(color, 100)] as [string, string]);
 
 export default COLORS_BALLS;
 
