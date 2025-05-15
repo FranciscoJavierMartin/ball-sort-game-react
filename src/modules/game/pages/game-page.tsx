@@ -162,5 +162,5 @@ export default function GamePage() {
     handleNextLevel: (isNextLevel = false) => {},
   };
 
-  return <Game level={level30} />;
+  return <Game {...level30} />;
 }

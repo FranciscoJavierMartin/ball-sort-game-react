@@ -44,28 +44,28 @@ div {
     rgba(0, 0, 0, 0.3) 0px 7px 13px -3px,
     rgba(0, 0, 0, 0.3) 0px -5px 0px inset;
   cursor: pointer;
-}
 
-.button:active {
-  box-shadow: none;
-  transform: translateY(2px);
-  -webkit-tap-highlight-color: transparent;
-}
+  &:active {
+    box-shadow: none;
+    transform: translateY(2px);
+    -webkit-tap-highlight-color: transparent;
+  }
 
-.button.yellow {
-  background-color: #f5d41f;
-  color: #8b5f00;
-}
+  &.yellow {
+    background-color: #f5d41f;
+    color: #8b5f00;
+  }
 
-.button.blue {
-  background-color: #216ed0;
-}
+  &.blue {
+    background-color: #216ed0;
+  }
 
-.button:disabled,
-.button[disabled] {
-  cursor: auto;
-  opacity: 0.5;
-  pointer-events: none;
+  &:disabled,
+  &[disabled] {
+    cursor: auto;
+    opacity: 0.5;
+    pointer-events: none;
+  }
 }
 
 /* Animations */

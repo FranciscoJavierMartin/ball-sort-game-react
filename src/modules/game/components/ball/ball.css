@@ -1,0 +1,46 @@
+.ball {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 60% 60%,
+    var(--ball-primary) 10%,
+    var(--ball-secondary) 100%
+  );
+
+  &::after {
+    background: radial-gradient(
+      circle at 50% 50%,
+      rgba(255, 255, 255, 0.8),
+      rgba(255, 255, 255, 0.8) 14%,
+      rgba(255, 255, 255, 0) 24%
+    );
+    content: '';
+    position: absolute;
+    top: 5%;
+    left: 10%;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    transform: translateX(-25%) translateY(-25%) skewX(-20deg);
+    filter: blur(2px);
+  }
+
+  &.bounce {
+    animation: bounce 350ms both;
+  }
+
+  &.incognito {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    border: 2px solid silver;
+    color: white;
+    font-weight: bold;
+    font-size: 2rem;
+    text-shadow: 1px 1px 1px #7e7e7e;
+
+    &::after {
+      content: none;
+    }
+  }
+}

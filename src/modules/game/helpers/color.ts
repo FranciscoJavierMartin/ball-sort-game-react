@@ -4,7 +4,7 @@
  * @param percent
  * @returns
  */
-export function lightenDarkenColor(color: string, percent: number) {
+export default function lightenDarkenColor(color: string, percent: number) {
   let R: number = parseInt(color.substring(1, 3), 16);
   let G: number = parseInt(color.substring(3, 5), 16);
   let B: number = parseInt(color.substring(5, 7), 16);
