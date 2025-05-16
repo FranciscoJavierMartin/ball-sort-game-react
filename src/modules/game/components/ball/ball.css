@@ -7,6 +7,11 @@
     var(--ball-secondary) 100%
   );
 
+  /* TODO: Remove*/
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
   &::after {
     background: radial-gradient(
       circle at 50% 50%,

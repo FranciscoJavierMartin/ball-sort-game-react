@@ -11,6 +11,9 @@ interface BallProps {
   animate?: boolean;
   bounce?: boolean;
   incognito?: boolean;
+  // TODO: Remove below
+  index: number;
+  positionTube: number;
 }
 
 export default function Ball({
@@ -21,6 +24,8 @@ export default function Ball({
   animate = false,
   bounce = false,
   incognito = false,
+  index,
+  positionTube,
 }: BallProps) {
   const style = {
     left: x,
@@ -37,6 +42,21 @@ export default function Ball({
   return (
     <div className={className} style={style}>
       {incognito && '?'}
+      {/* TODO: Remove */}
+      <span
+        style={{
+          width: '100%',
+          height: '100%',
+          color: 'white',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          fontSize: '12px',
+          textShadow: '1px 1px 1px black',
+        }}
+      >
+        {index} - {positionTube}
+      </span>
     </div>
   );
 }

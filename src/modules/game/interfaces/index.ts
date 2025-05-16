@@ -40,7 +40,7 @@ export interface Balls {
   colors: [string, string];
   index: number;
   indexTube: number;
-  positionTube: number;
+  positionTube: number; // Lowest value is at bottom
   bounce?: boolean;
   originalY?: number;
   incognito?: boolean;
