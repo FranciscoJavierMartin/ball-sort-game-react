@@ -6,6 +6,7 @@ import type {
   Balls,
   CoordinateTube,
   GameProps,
+  SelectedItems,
   TestTubes,
   TubeDistribution,
 } from '@/modules/game/interfaces';
@@ -15,6 +16,8 @@ import getInitialTubeDistribution from '@/modules/game/helpers/get-initial-tube-
 import Tubes from '@/modules/game/components/tubes/tubes';
 import updateBallsPosition from '@/modules/game/helpers/update-balls-position';
 import RenderBalls from '@/modules/game/components/render-balls/render-balls';
+import { INITIAL_SELECTED_ITEMS } from '@/modules/game/constants/game';
+import validateSelectedTubes from '@/modules/game/helpers/validate-selected-tubes';
 
 export interface ExtendedGameProps extends GameProps {
   handleNextLevel: (isNextLevel?: boolean) => void;
@@ -42,6 +45,9 @@ export default function Game({
         testTubes,
       }),
   );
+  const [selectedItems, setSelectedItems] = useState<SelectedItems>(
+    INITIAL_SELECTED_ITEMS,
+  );
   const tubesRef = useRef<CoordinateTube[]>([]);
 
   useEffect(() => {
@@ -53,7 +59,16 @@ export default function Game({
   }
 
   function handleOnClick(indexSelectedTube: number): void {
-    console.log('onClick', indexSelectedTube);
+    validateSelectedTubes({
+      balls,
+      indexSelectedTube,
+      selectedItems,
+      setBalls,
+      setSelectedItems,
+      size,
+      testTubes,
+      tubePositions: tubesRef.current,
+    });
   }
 
   function handlePosition(index: number, data: CoordinateTube): void {
