@@ -1,5 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
-import type { HeaderActions } from '@/modules/common/constants/header';
+import {
+  HEADER_ACTIONS,
+  type HeaderActions,
+} from '@/modules/common/constants/header';
 import GameWrapper from '@/modules/game/components/game-wrapper/game-wrapper';
 import GameHeader from '@/modules/game/components/game-header/game-header';
 import type {
@@ -25,6 +28,7 @@ import validateSelectedTubes from '@/modules/game/helpers/validate-selected-tube
 import delay from '@/modules/common/helpers/delay';
 import { SPEED_ANIMATION } from '@/modules/common/constants/size';
 import validateTweens from '@/modules/game/helpers/validate-tweens';
+import LevelCompleted from '@/modules/game/components/level-completed/level-completed';
 
 export interface ExtendedGameProps extends GameProps {
   handleNextLevel: (isNextLevel?: boolean) => void;
@@ -56,6 +60,7 @@ export default function Game({
     INITIAL_SELECTED_ITEMS,
   );
   const [tweenBalls, setTweenBalls] = useState<Tween>(INITIAL_TWEEN_BALLS);
+  const [levelCompleted, setLevelCompleted] = useState<boolean>(false);
   const tubesRef = useRef<CoordinateTube[]>([]);
   const disableUI = tweenBalls.tubes.origin >= 0;
 
@@ -90,7 +95,7 @@ export default function Game({
         }
 
         if (finishedLevel) {
-          console.log('Level finished!');
+          setLevelCompleted(true);
         }
 
         setTweenBalls(copyTween);
@@ -101,7 +106,17 @@ export default function Game({
   }, [tweenBalls, balls, testTubes, capacity]);
 
   function handleActions(type: HeaderActions): void {
-    console.log(type);
+    switch (type) {
+      case HEADER_ACTIONS.RESTART:
+        handleNextLevel(false);
+        break;
+      case HEADER_ACTIONS.HOME:
+        break;
+      case HEADER_ACTIONS.TUBE:
+        break;
+      case HEADER_ACTIONS.UNDO:
+        break;
+    }
   }
 
   function handleOnClick(indexSelectedTube: number): void {
@@ -124,6 +139,7 @@ export default function Game({
 
   return (
     <GameWrapper disableUI={disableUI}>
+      {levelCompleted && <LevelCompleted handleNextLevel={handleNextLevel} />}
       <GameHeader
         handleActions={handleActions}
         isSpecialLevel={isSpecialLevel}

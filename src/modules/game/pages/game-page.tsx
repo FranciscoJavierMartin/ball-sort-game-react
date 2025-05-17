@@ -87,6 +87,7 @@ export default function GamePage() {
     handleNextLevel: (isNextLevel = false) => {},
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const level31: ExtendedGameProps = {
     capacity: 4,
     distribution: [6, 6],
@@ -177,5 +178,5 @@ export default function GamePage() {
     handleNextLevel: (isNextLevel = false) => {},
   };
 
-  return <Game {...level31} />;
+  return <Game {...level1} />;
 }

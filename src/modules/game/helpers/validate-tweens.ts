@@ -16,6 +16,20 @@ function validateCompleteTube(
   return isSameColor && colorBallsTube.length === capacity;
 }
 
+function validateLevelComplete(tubes: TestTubes[]): boolean {
+  const totalTubes = tubes.length;
+  const totalTubesCompleted: number = tubes.reduce<number>(
+    (acc, tube) => acc + (tube.isComplete ? 1 : 0),
+    0,
+  );
+  const totalEmptyTubes = tubes.reduce<number>(
+    (acc, tube) => (acc + tube.balls.length === 0 ? 1 : 0),
+    0,
+  );
+
+  return totalTubes === totalTubesCompleted + totalEmptyTubes;
+}
+
 export default function validateTweens({
   balls,
   capacity,
@@ -104,7 +118,7 @@ export default function validateTweens({
   }
 
   const tweenFinished = copyTween.tweens.length === 0;
-  let finishedLevel = false;
+  const finishedLevel = validateLevelComplete(copyTestTubes);
 
   return {
     updateTubes,
