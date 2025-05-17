@@ -22,6 +22,9 @@ import {
   INITIAL_TWEEN_BALLS,
 } from '@/modules/game/constants/game';
 import validateSelectedTubes from '@/modules/game/helpers/validate-selected-tubes';
+import delay from '@/modules/common/helpers/delay';
+import { SPEED_ANIMATION } from '@/modules/common/constants/size';
+import validateTweens from '@/modules/game/helpers/validate-tweens';
 
 export interface ExtendedGameProps extends GameProps {
   handleNextLevel: (isNextLevel?: boolean) => void;
@@ -59,6 +62,43 @@ export default function Game({
   useEffect(() => {
     setBalls((data) => updateBallsPosition(data, tubesRef.current, size));
   }, [size, tubeDistribution]);
+
+  useEffect(() => {
+    if (tweenBalls.tweens.length !== 0) {
+      const runAsync = async () => {
+        const {
+          copyBalls,
+          copyTestTubes,
+          copyTween,
+          finishedLevel,
+          updateBalls,
+          updateTubes,
+        } = validateTweens({
+          balls,
+          capacity,
+          testTubes,
+          tweenBalls,
+        });
+
+        await delay(SPEED_ANIMATION);
+        if (updateBalls) {
+          setBalls(copyBalls);
+        }
+
+        if (updateTubes) {
+          setTestTubes(copyTestTubes);
+        }
+
+        if (finishedLevel) {
+          console.log('Level finished!');
+        }
+
+        setTweenBalls(copyTween);
+      };
+
+      runAsync();
+    }
+  }, [tweenBalls, balls, testTubes, capacity]);
 
   function handleActions(type: HeaderActions): void {
     console.log(type);
