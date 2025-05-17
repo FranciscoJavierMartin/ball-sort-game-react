@@ -2,6 +2,20 @@ import cloneDeep from '@/modules/common/helpers/clone-deep';
 import type { Balls, TestTubes, Tween } from '@/modules/game/interfaces';
 import { INITIAL_TWEEN_BALLS } from '@/modules/game/constants/game';
 
+function validateCompleteTube(
+  tube: TestTubes,
+  balls: Balls[],
+  capacity: number,
+): boolean {
+  const colorBallsTube = tube.balls
+    .filter((ballIndex) => !balls[ballIndex].incognito)
+    .map((ballIndex) => balls[ballIndex].color);
+  const firstBallColor = colorBallsTube[0];
+  const isSameColor = colorBallsTube.every((color) => color === firstBallColor);
+
+  return isSameColor && colorBallsTube.length === capacity;
+}
+
 export default function validateTweens({
   balls,
   capacity,
@@ -18,20 +32,41 @@ export default function validateTweens({
   const copyTestTubes = cloneDeep(testTubes);
   const tweenCompletedIndex: number[] = [];
 
-  let updateBalls = false;
-  let updateTubes = false;
+  let updateBalls: boolean = false;
+  let updateTubes: boolean = false;
 
   for (let i = 0; i < copyTween.tweens.length; i++) {
     const tweenCompleted =
       copyTween.tweens[i].filter((v) => v.completed).length ===
-      copyTween.tweens.length;
+      copyTween.tweens[i].length;
 
     if (tweenCompleted) {
+      tweenCompletedIndex.push(i);
+      const ballIndex = copyTween.tweens[i][0].ballIndex;
+      copyTestTubes[copyTween.tubes.destinity].balls.push(ballIndex);
+      const completeTube = validateCompleteTube(
+        copyTestTubes[copyTween.tubes.destinity],
+        copyBalls,
+        capacity,
+      );
+
+      copyTestTubes[copyTween.tubes.destinity].isComplete = completeTube;
+      copyTestTubes[copyTween.tubes.destinity].showConfetti = completeTube;
+
+      copyTestTubes[copyTween.tubes.origin].balls.pop();
+      copyTestTubes[copyTween.tubes.origin].isComplete = false;
+      copyTestTubes[copyTween.tubes.origin].showConfetti = false;
+
+      copyBalls[ballIndex].indexTube = copyTween.tubes.destinity;
+      copyBalls[ballIndex].animate = false;
+
+      updateBalls = true;
+      updateTubes = true;
     }
   }
 
   copyTween.tweens = copyTween.tweens?.filter(
-    (_, index) => !tweenCompletedIndex.includes(index),
+    (_, i) => !tweenCompletedIndex.includes(i),
   );
 
   const notCompleted = copyTween.tweens?.[0]?.find((v) => !v.completed);
@@ -44,7 +79,7 @@ export default function validateTweens({
     if (notCompleted.tweenIndex === 3) {
       copyBalls[notCompleted.ballIndex].bounce = true;
       copyBalls[notCompleted.ballIndex].positionTube =
-        notCompleted.positionTube ?? 0;
+        notCompleted?.positionTube ?? 0;
     }
 
     copyTween.tweens[0][notCompleted.tweenIndex - 1].completed = true;
@@ -59,7 +94,6 @@ export default function validateTweens({
 
         copyBalls[nextTween.ballIndex].x = nextTween.x;
         copyBalls[nextTween.ballIndex].y = nextTween.y;
-
         copyBalls[nextTween.ballIndex].bounce = false;
         copyBalls[nextTween.ballIndex].animate = true;
 
