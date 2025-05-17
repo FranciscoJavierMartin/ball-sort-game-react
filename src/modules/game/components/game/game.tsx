@@ -3,6 +3,7 @@ import type { HeaderActions } from '@/modules/common/constants/header';
 import GameWrapper from '@/modules/game/components/game-wrapper/game-wrapper';
 import GameHeader from '@/modules/game/components/game-header/game-header';
 import type {
+  Tween,
   Balls,
   CoordinateTube,
   GameProps,
@@ -16,7 +17,10 @@ import getInitialTubeDistribution from '@/modules/game/helpers/get-initial-tube-
 import Tubes from '@/modules/game/components/tubes/tubes';
 import updateBallsPosition from '@/modules/game/helpers/update-balls-position';
 import RenderBalls from '@/modules/game/components/render-balls/render-balls';
-import { INITIAL_SELECTED_ITEMS } from '@/modules/game/constants/game';
+import {
+  INITIAL_SELECTED_ITEMS,
+  INITIAL_TWEEN_BALLS,
+} from '@/modules/game/constants/game';
 import validateSelectedTubes from '@/modules/game/helpers/validate-selected-tubes';
 
 export interface ExtendedGameProps extends GameProps {
@@ -48,7 +52,9 @@ export default function Game({
   const [selectedItems, setSelectedItems] = useState<SelectedItems>(
     INITIAL_SELECTED_ITEMS,
   );
+  const [tweenBalls, setTweenBalls] = useState<Tween>(INITIAL_TWEEN_BALLS);
   const tubesRef = useRef<CoordinateTube[]>([]);
+  const disableUI = tweenBalls.tubes.origin >= 0;
 
   useEffect(() => {
     setBalls((data) => updateBallsPosition(data, tubesRef.current, size));
@@ -65,6 +71,7 @@ export default function Game({
       selectedItems,
       setBalls,
       setSelectedItems,
+      setTweenBalls,
       size,
       testTubes,
       tubePositions: tubesRef.current,
@@ -76,7 +83,7 @@ export default function Game({
   }
 
   return (
-    <GameWrapper disableUI={false}>
+    <GameWrapper disableUI={disableUI}>
       <GameHeader
         handleActions={handleActions}
         isSpecialLevel={isSpecialLevel}
