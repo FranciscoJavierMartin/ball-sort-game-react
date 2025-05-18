@@ -1,6 +1,7 @@
 import type { CSSProperties } from 'react';
 import { SPEED_ANIMATION } from '@/modules/common/constants/size';
 import { INCOGNITO_COLOR } from '@/modules/common/constants/color';
+import calculateFontSize from '@/modules/game/helpers/font-size';
 import './ball.css';
 
 interface BallProps {
@@ -11,9 +12,6 @@ interface BallProps {
   animate?: boolean;
   bounce?: boolean;
   incognito?: boolean;
-  // TODO: Remove below
-  index: number;
-  positionTube: number;
 }
 
 export default function Ball({
@@ -24,8 +22,6 @@ export default function Ball({
   animate = false,
   bounce = false,
   incognito = false,
-  index,
-  positionTube,
 }: BallProps) {
   const style = {
     left: x,
@@ -37,26 +33,15 @@ export default function Ball({
     '--ball-secondary': incognito ? INCOGNITO_COLOR : colors[0],
   } as CSSProperties;
 
+  if (incognito) {
+    style.fontSize = calculateFontSize(size);
+  }
+
   const className = `ball ${bounce ? 'bounce' : ''} ${incognito ? 'incognito' : ''}`;
 
   return (
     <div className={className} style={style}>
       {incognito && '?'}
-      {/* TODO: Remove */}
-      <span
-        style={{
-          width: '100%',
-          height: '100%',
-          color: 'white',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          fontSize: '12px',
-          textShadow: '1px 1px 1px black',
-        }}
-      >
-        {index} - {positionTube}
-      </span>
     </div>
   );
 }
