@@ -247,5 +247,16 @@ export default function validateSelectedTubes({
     });
 
     setSelectedItems(INITIAL_SELECTED_ITEMS);
+
+    const indexNextBall: number =
+      testTubes[originTubeIndex].balls.length - tweens.length - 1;
+
+    if (indexNextBall >= 0) {
+      const nextBall: number = testTubes[originTubeIndex].balls[indexNextBall];
+      if (copyBalls[nextBall].incognito) {
+        copyBalls[nextBall].incognito = false;
+        setBalls(copyBalls);
+      }
+    }
   }
 }
