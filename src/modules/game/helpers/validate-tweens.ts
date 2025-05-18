@@ -1,20 +1,7 @@
 import cloneDeep from '@/modules/common/helpers/clone-deep';
 import type { Balls, TestTubes, Tween } from '@/modules/game/interfaces';
 import { INITIAL_TWEEN_BALLS } from '@/modules/game/constants/game';
-
-function validateCompleteTube(
-  tube: TestTubes,
-  balls: Balls[],
-  capacity: number,
-): boolean {
-  const colorBallsTube = tube.balls
-    .filter((ballIndex) => !balls[ballIndex].incognito)
-    .map((ballIndex) => balls[ballIndex].color);
-  const firstBallColor = colorBallsTube[0];
-  const isSameColor = colorBallsTube.every((color) => color === firstBallColor);
-
-  return isSameColor && colorBallsTube.length === capacity;
-}
+import validateCompleteTube from '@/modules/game/helpers/validate-complete-tube';
 
 function validateLevelComplete(tubes: TestTubes[]): boolean {
   const totalTubes = tubes.length;

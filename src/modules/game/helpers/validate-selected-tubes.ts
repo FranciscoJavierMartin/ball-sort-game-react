@@ -6,6 +6,7 @@ import type {
   TestTubes,
   Tween,
   TweenBall,
+  Undo,
 } from '@/modules/game/interfaces';
 import { INITIAL_SELECTED_ITEMS } from '@/modules/game/constants/game';
 import getPositionBallTube from '@/modules/game/helpers/get-position-ball-tube';
@@ -151,9 +152,11 @@ export default function validateSelectedTubes({
   size,
   testTubes,
   tubePositions,
+  undo,
   setBalls,
   setSelectedItems,
   setTweenBalls,
+  setUndo,
 }: {
   balls: Balls[];
   indexSelectedTube: number;
@@ -161,11 +164,14 @@ export default function validateSelectedTubes({
   size: number;
   testTubes: TestTubes[];
   tubePositions: CoordinateTube[];
+  undo: Undo[];
   setBalls: React.Dispatch<React.SetStateAction<Balls[]>>;
   setSelectedItems: React.Dispatch<React.SetStateAction<SelectedItems>>;
   setTweenBalls: React.Dispatch<React.SetStateAction<Tween>>;
+  setUndo: React.Dispatch<React.SetStateAction<Undo[]>>;
 }): void {
   const copyBalls = cloneDeep(balls);
+  const copyUndo = cloneDeep(undo);
   const { originBallIndex, originTubeIndex } = selectedItems;
   const tube = testTubes[indexSelectedTube];
   const ballsTube = tube.balls;
@@ -247,6 +253,21 @@ export default function validateSelectedTubes({
     });
 
     setSelectedItems(INITIAL_SELECTED_ITEMS);
+
+    const ballsMovedIndex: number[][] = tweens.map<number[]>((v) => {
+      const ballIndex = v[0].ballIndex;
+      const positionTube =
+        copyBalls.find((ball) => ball.index === ballIndex)?.positionTube ?? 0;
+
+      return [ballIndex, positionTube];
+    });
+
+    copyUndo.push({
+      originTubeIndex,
+      targetTubeIndex: indexSelectedTube,
+      ballsMovedIndex,
+    });
+    setUndo(copyUndo);
 
     const indexNextBall: number =
       testTubes[originTubeIndex].balls.length - tweens.length - 1;

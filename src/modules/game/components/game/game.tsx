@@ -13,6 +13,7 @@ import type {
   SelectedItems,
   TestTubes,
   TubeDistribution,
+  Undo,
 } from '@/modules/game/interfaces';
 import getInitialBalls from '@/modules/game/helpers/get-initial-balls';
 import getInitialTestTubes from '@/modules/game/helpers/get-initial-test-tubes';
@@ -29,6 +30,7 @@ import delay from '@/modules/common/helpers/delay';
 import { SPEED_ANIMATION } from '@/modules/common/constants/size';
 import validateTweens from '@/modules/game/helpers/validate-tweens';
 import LevelCompleted from '@/modules/game/components/level-completed/level-completed';
+import validateUndo from '@/modules/game/helpers/validate-undo';
 
 export interface ExtendedGameProps extends GameProps {
   handleNextLevel: (isNextLevel?: boolean) => void;
@@ -61,6 +63,7 @@ export default function Game({
   );
   const [tweenBalls, setTweenBalls] = useState<Tween>(INITIAL_TWEEN_BALLS);
   const [levelCompleted, setLevelCompleted] = useState<boolean>(false);
+  const [undo, setUndo] = useState<Undo[]>([]);
   const tubesRef = useRef<CoordinateTube[]>([]);
   const disableUI = tweenBalls.tubes.origin >= 0;
 
@@ -115,6 +118,19 @@ export default function Game({
       case HEADER_ACTIONS.TUBE:
         break;
       case HEADER_ACTIONS.UNDO:
+        validateUndo({
+          balls,
+          capacity,
+          selectedItems,
+          setBalls,
+          setSelectedItems,
+          setTestTubes,
+          setUndo,
+          size,
+          testTubes,
+          tubePositions: tubesRef.current,
+          undo,
+        });
         break;
     }
   }
@@ -127,9 +143,11 @@ export default function Game({
       setBalls,
       setSelectedItems,
       setTweenBalls,
+      setUndo,
       size,
       testTubes,
       tubePositions: tubesRef.current,
+      undo,
     });
   }
 
@@ -144,7 +162,7 @@ export default function Game({
         handleActions={handleActions}
         isSpecialLevel={isSpecialLevel}
         level={level}
-        totalUndo={0}
+        totalUndo={undo.length}
         tubeHelpEnabled={tubeDistribution.isComplete}
       />
       <RenderBalls balls={balls} size={size} />

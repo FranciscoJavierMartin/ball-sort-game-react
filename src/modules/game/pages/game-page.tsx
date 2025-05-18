@@ -69,9 +69,9 @@ export default function GamePage() {
       '6': {
         balls: [
           { value: 4, incognito: false },
-          { value: 7, incognito: false },
           { value: 6, incognito: false },
           { value: 8, incognito: false },
+          { value: 7, incognito: false },
         ],
       },
       '8': {
@@ -262,5 +262,5 @@ export default function GamePage() {
     handleNextLevel: (isNextLevel = false) => {},
   };
 
-  return <Game {...level32} />;
+  return <Game {...level30} />;
 }
