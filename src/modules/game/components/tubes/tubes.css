@@ -1,5 +1,5 @@
 .game-row-tubes {
-  align-items: center;
+  align-items: flex-end;
   display: flex;
   justify-content: space-evenly;
   width: 100%;

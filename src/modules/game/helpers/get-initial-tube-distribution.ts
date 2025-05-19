@@ -4,7 +4,7 @@ import type {
   Balls,
 } from '@/modules/game/interfaces';
 
-function validateLastTubeHelp(
+export function validateLastTubeHelp(
   testTubes: TestTubes[],
   balls: Balls[],
   capacity: number,

@@ -31,6 +31,7 @@ import { SPEED_ANIMATION } from '@/modules/common/constants/size';
 import validateTweens from '@/modules/game/helpers/validate-tweens';
 import LevelCompleted from '@/modules/game/components/level-completed/level-completed';
 import validateUndo from '@/modules/game/helpers/validate-undo';
+import validateTubeHelp from '@/modules/game/helpers/validate-tube-help';
 
 export interface ExtendedGameProps extends GameProps {
   handleNextLevel: (isNextLevel?: boolean) => void;
@@ -116,6 +117,16 @@ export default function Game({
       case HEADER_ACTIONS.HOME:
         break;
       case HEADER_ACTIONS.TUBE:
+        validateTubeHelp({
+          balls,
+          capacity,
+          setSelectedItems,
+          setTestTubes,
+          setTubeDistribution,
+          size,
+          testTubes,
+          tubeDistribution,
+        });
         break;
       case HEADER_ACTIONS.UNDO:
         validateUndo({
