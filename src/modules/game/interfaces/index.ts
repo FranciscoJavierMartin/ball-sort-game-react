@@ -78,3 +78,8 @@ export interface TubeDistribution {
   distribution: number[];
   isComplete: boolean;
 }
+
+export interface CounterColors {
+  value: number;
+  counter: number;
+}

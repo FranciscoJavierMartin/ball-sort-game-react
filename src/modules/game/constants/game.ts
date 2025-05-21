@@ -9,3 +9,5 @@ export const INITIAL_TWEEN_BALLS: Tween = {
   tweens: [],
   tubes: { origin: -1, destinity: -1 },
 };
+
+export const BASE_SIZE = 35;
