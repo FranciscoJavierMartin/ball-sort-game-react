@@ -2,10 +2,17 @@ import COLORS_BALLS from '@/modules/common/constants/color';
 import {
   getDataCache,
   getValueFromCache,
+  savePropierties,
 } from '@/modules/common/helpers/storage';
 import { STORAGE_KEYS } from '@/modules/game/constants/storage';
 import generateLevel from '@/modules/game/helpers/generate-level';
-import type { GameProps } from '@/modules/game/interfaces';
+import type {
+  Balls,
+  BallsInTestTubes,
+  GameProps,
+  TestTubes,
+  TubesType,
+} from '@/modules/game/interfaces';
 
 function validateLevelFromCache({
   capacity = 0,
@@ -57,7 +64,7 @@ function validateLevelFromCache({
   }
 }
 
-export default function getLevelFromCache(): GameProps {
+export function getLevelFromCache(): GameProps {
   const isLevelCompleted: boolean = getValueFromCache(
     STORAGE_KEYS.LEVEL_COMPLETED,
     false,
@@ -71,4 +78,34 @@ export default function getLevelFromCache(): GameProps {
   }
 
   return generateLevel();
+}
+
+export function saveNewTubeDistributionCache(
+  tubes: TestTubes[],
+  balls: Balls[],
+): void {
+  const tubesInCache: TubesType = {};
+
+  for (let i = 0; i < tubes.length; i++) {
+    const ballsInTubes: BallsInTestTubes[] = [];
+
+    if (tubes[i].balls.length) {
+      for (let c = 0; c < tubes[i].balls.length; c++) {
+        const ballIndex = tubes[i].balls[c];
+
+        ballsInTubes.push({
+          value: balls[ballIndex].color,
+          incognito: balls[ballIndex].incognito,
+        });
+      }
+    }
+
+    tubesInCache[i] = {
+      balls: ballsInTubes,
+      capacity: tubes[i].capacity,
+      isComplete: tubes[i].isComplete,
+    };
+  }
+
+  savePropierties(STORAGE_KEYS.TUBES, tubesInCache);
 }

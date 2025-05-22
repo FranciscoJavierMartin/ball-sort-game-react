@@ -9,6 +9,7 @@ import type {
 import validateCompleteTube from '@/modules/game/helpers/validate-complete-tube';
 import getPositionBallTube from '@/modules/game/helpers/get-position-ball-tube';
 import { INITIAL_SELECTED_ITEMS } from '@/modules/game/constants/game';
+import { saveNewTubeDistributionCache } from '@/modules/game/helpers/storage';
 
 export default function validateUndo({
   balls,
@@ -101,5 +102,7 @@ export default function validateUndo({
     setBalls(copyBalls);
     setTestTubes(copyTestTubes);
     setUndo(copyUndo);
+
+    saveNewTubeDistributionCache(copyTestTubes, copyBalls);
   }
 }

@@ -7,6 +7,9 @@ import type {
 } from '@/modules/game/interfaces';
 import { validateLastTubeHelp } from '@/modules/game/helpers/get-initial-tube-distribution';
 import getStyles from '@/modules/game/helpers/styles';
+import { savePropierties } from '@/modules/common/helpers/storage';
+import { STORAGE_KEYS } from '@/modules/game/constants/storage';
+import { saveNewTubeDistributionCache } from '@/modules/game/helpers/storage';
 
 export default function validateTubeHelp({
   balls,
@@ -46,6 +49,11 @@ export default function validateTubeHelp({
         copyTubeDistribution.distribution.length - 1
       ]++;
 
+      savePropierties(
+        STORAGE_KEYS.DISTRIBUTION,
+        copyTubeDistribution.distribution,
+      );
+
       copyTestTubes.push({
         balls: [],
         capacity: 1,
@@ -58,6 +66,7 @@ export default function validateTubeHelp({
 
     setTestTubes(copyTestTubes);
     setTubeDistribution(copyTubeDistribution);
+    saveNewTubeDistributionCache(copyTestTubes, balls);
   }
 
   setTubeDistribution(copyTubeDistribution);

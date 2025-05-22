@@ -2,6 +2,9 @@ import cloneDeep from '@/modules/common/helpers/clone-deep';
 import type { Balls, TestTubes, Tween } from '@/modules/game/interfaces';
 import { INITIAL_TWEEN_BALLS } from '@/modules/game/constants/game';
 import validateCompleteTube from '@/modules/game/helpers/validate-complete-tube';
+import { saveNewTubeDistributionCache } from '@/modules/game/helpers/storage';
+import { savePropierties } from '@/modules/common/helpers/storage';
+import { STORAGE_KEYS } from '@/modules/game/constants/storage';
 
 function validateLevelComplete(tubes: TestTubes[]): boolean {
   const totalTubes = tubes.length;
@@ -105,7 +108,16 @@ export default function validateTweens({
   }
 
   const tweenFinished = copyTween.tweens.length === 0;
+
+  if (tweenFinished) {
+    saveNewTubeDistributionCache(copyTestTubes, copyBalls);
+  }
+
   const finishedLevel = validateLevelComplete(copyTestTubes);
+
+  if (finishedLevel) {
+    savePropierties(STORAGE_KEYS.LEVEL_COMPLETED, finishedLevel);
+  }
 
   return {
     updateTubes,
