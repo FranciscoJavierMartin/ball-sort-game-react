@@ -1,5 +1,7 @@
+import { Link } from 'react-router';
 import type { HeaderActions } from '@/modules/common/constants/header';
 import Icon from '@/modules/common/components/icon/icon';
+import { ROUTES } from '@/modules/common/constants/routes';
 import './game-header.css';
 
 interface HeaderProps {
@@ -19,9 +21,9 @@ export default function GameHeader({
 }: HeaderProps) {
   return (
     <div className='game-header'>
-      <a href='#' className='button blue' title='Home'>
+      <Link to={ROUTES.HOME} className='button blue' title='Home'>
         <Icon type='home' />
-      </a>
+      </Link>
       <button
         className='button blue'
         title='Restart'

@@ -8,14 +8,16 @@ const Game = lazy(() => import('@/modules/game/components/game/game'));
 
 export default function GamePage() {
   const [level, setLevel] = useState<GameProps>(() => getLevelFromCache());
+  const [keyLevel, setKeyLevel] = useState(`key-${Math.random()}`);
 
   function handleNextLevel(isNextLevel = true) {
-    console.log('handleNextLevel', isNextLevel);
+    setLevel(generateLevel(isNextLevel));
+    setKeyLevel(`key-${Math.random()}`);
   }
 
   return (
     <Suspense fallback={<Loading />}>
-      <Game {...level} handleNextLevel={handleNextLevel} />
+      <Game {...level} key={keyLevel} handleNextLevel={handleNextLevel} />
     </Suspense>
   );
 }
