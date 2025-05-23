@@ -1,0 +1,25 @@
+.toolbar {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+  width: 100%;
+  gap: 15px;
+
+  .button {
+    border-radius: 12px;
+    height: 50px;
+    width: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .icon-wrapper {
+      width: 50%;
+
+      svg {
+        filter: drop-shadow(0 2px 1px black);
+      }
+    }
+  }
+}
