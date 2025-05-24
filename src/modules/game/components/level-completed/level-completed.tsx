@@ -1,7 +1,7 @@
 import './level-completed.css';
 
 interface LevelCompletedProps {
-  handleNextLevel: () => void;
+  handleNextLevel: (isNextLevel: boolean) => void;
 }
 
 export default function LevelCompleted({
@@ -12,7 +12,9 @@ export default function LevelCompleted({
     <div className='level-completed'>
       <div className='level-completed-container'>
         <div className='level-completed-title'>Awesome</div>
-        <button className='button yellow' onClick={handleNextLevel}>Next</button>
+        <button className='button yellow' onClick={() => handleNextLevel(true)}>
+          Next
+        </button>
       </div>
     </div>
   );

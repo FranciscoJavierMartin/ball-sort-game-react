@@ -13,11 +13,11 @@ function validateLevelComplete(tubes: TestTubes[]): boolean {
     0,
   );
   const totalEmptyTubes = tubes.reduce<number>(
-    (acc, tube) => (acc + tube.balls.length === 0 ? 1 : 0),
+    (acc, tube) => acc + (tube.balls.length === 0 ? 1 : 0),
     0,
   );
 
-  return totalTubes === totalTubesCompleted + totalEmptyTubes;
+  return totalTubesCompleted + totalEmptyTubes === totalTubes;
 }
 
 export default function validateTweens({
