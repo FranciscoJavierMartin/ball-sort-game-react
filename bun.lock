@@ -2,7 +2,7 @@
   "lockfileVersion": 1,
   "workspaces": {
     "": {
-      "name": "ball-sort-game",
+      "name": "ball-sort-game-react",
       "dependencies": {
         "react": "^19.1.0",
         "react-dom": "^19.1.0",
